@@ -213,7 +213,6 @@ def search_product(termino):
     return make_response(jsonify({"products": [Product.serialize() for Product in products]}))
     
 
-    return make_response(jsonify({"msg": "Se ha eliminado exitosamente"}), 200)
 
 # Cart
 # Carrito
