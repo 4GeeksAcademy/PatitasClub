@@ -9,7 +9,6 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 from flask_bcrypt import Bcrypt
 
 
-
 api = Blueprint('api', __name__)
 
 
