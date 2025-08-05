@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, ForeignKey, Integer, Float, Boolean
+from sqlalchemy import String, ForeignKey, Integer, Float, Boolean, Table, Column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 import enum
@@ -11,6 +11,14 @@ class Status(enum.Enum):
     PENDING = 'pending'
     COMPLETED = 'completed'
     CANCELLED = 'cancelled'
+
+product_category = Table(
+    'product_category',
+    db.Model.metadata,
+    Column('product_id', ForeignKey('product.id'), primary_key=True),
+    Column('category_id', ForeignKey('category.id'), primary_key=True)
+)
+
     
 
 class User(db.Model):
@@ -59,11 +67,10 @@ class Category(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     description: Mapped[str] = mapped_column(String(), nullable=False)
-    
-    
-    
-    product_category: Mapped[List["ProductCategory"]] = relationship(
-        back_populates="category", cascade= "all, delete-orphan"
+
+    products: Mapped[List["Product"]] = relationship(
+        secondary=product_category,
+        back_populates="categories"
     )
 
 
@@ -119,27 +126,15 @@ class Product(db.Model):
         back_populates= "product", cascade= "all, delete-orphan"
     )
 
-    list_product_category: Mapped[List["ProductCategory"]] = relationship(
-        back_populates="product", cascade= "all, delete-orphan"
+    categories: Mapped[List["Category"]] = relationship(
+        secondary=product_category,
+        back_populates="products"
     )
 
 
     def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "photo": self.photo,
-            "coste": self.coste,
-            "pet_type": self.pet_type.name if self.pet_type else None,
-            "price": self.price,
-            "categories": [pc.category.name for pc in self.list_product_category ],
-            "stock": self.stock,
-            # "url": self.url
-            # do not serialize the password, its a security breach
-        }
-        categories = []  # Por defecto lista vacía
-        pet_type = None  # Por defecto None
+        categories = [] 
+        pet_type = None  
     
         if self.categories:
             categories = [category.serialize_category_bis() for category in self.categories]
@@ -165,27 +160,6 @@ class Product(db.Model):
         "name": self.name
     }
     
-class ProductCategory(db.Model):
-    id: Mapped[int] = mapped_column(primary_key=True)
-
-    category_id: Mapped[int] = mapped_column(ForeignKey("category.id"))
-    product_id: Mapped[int] = mapped_column(ForeignKey("product.id"))
-    
-    product: Mapped["Product"] = relationship (
-        back_populates="list_product_category"
-    )
-    category: Mapped["Category"] = relationship(
-        back_populates="product_category"
-    )
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "category_id": self.id,
-            "product_id": self.produc_id,
-        
-            # do not serialize the password, its a security breach
-        }
 
 class OrderItem(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
