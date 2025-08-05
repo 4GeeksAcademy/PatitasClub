@@ -147,24 +147,25 @@ def new_product():
             coste=coste,
             price=price,
             pet_type_id=pet_type_id,
+            list_product_category=categories,
             stock=stock
         )
 
         categories = data_request['categories']
-        for cat_id in categories:
-            category = Category.query.get(cat_id)
+        # for cat_id in categories:
+        #     category = Category.query.get(cat_id)
 
-            if not category:
-                return make_response(jsonify({"error": f"Categoría con ID {cat_id} no existe"}), 404)
-            product_category = ProductCategory(
-                product_id=product_new.id,
-                category_id=cat_id
-            )
-            db.session.add(product_category)
+        #     if not category:
+        #         return make_response(jsonify({"error": f"Categoría con ID {cat_id} no existe"}), 404)
+        #     product_category = ProductCategory(
+        #         product_id=product_new.id,
+        #         category_id=cat_id
+        #     )
+        #     db.session.add(product_category)
 
-            product_new.categories.append(
-                Category.query.get(cat_id)
-            )
+        #     product_new.list_product_category.append(
+        #         Category.query.get(cat_id)
+        #     )
 
         db.session.add(product_new)
         db.session.flush()
