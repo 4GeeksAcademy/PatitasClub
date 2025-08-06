@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import Swal from "sweetalert2"; 
 
 export const VistaProducto = () => {
   const { id } = useParams();
@@ -37,7 +38,18 @@ export const VistaProducto = () => {
         image: producto.photo || "https://via.placeholder.com/150",
       },
     });
-    alert(`Producto "${producto.name}" añadido al carrito.`);
+
+    
+    Swal.fire({
+      icon: "success",
+      title: "Producto añadido",
+      text: `"${producto.name}" se añadió al carrito.`,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      toast: true,
+      position: "center", 
+    });
   };
 
   if (loading) return <p>Cargando producto...</p>;
@@ -50,7 +62,6 @@ export const VistaProducto = () => {
         <div className="card-header text-center bg-primary text-white">
           <h3>{producto.name}</h3>
         </div>
-
 
         <div
           style={{

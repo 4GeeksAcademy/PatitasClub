@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import Swal from "sweetalert2"; 
+
 
 export const Productos = ({ productos }) => {
   const { dispatch } = useGlobalReducer();
@@ -18,7 +20,16 @@ export const Productos = ({ productos }) => {
         image: producto.photo || "https://via.placeholder.com/150",
       },
     });
-    alert(`Producto "${producto.name}" añadido al carrito.`);
+    Swal.fire({
+      icon: "success",
+      title: "Producto añadido",
+      text: `"${producto.name}" se añadió al carrito.`,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      toast: true,
+      position: "center", 
+    });
   };
 
   return (

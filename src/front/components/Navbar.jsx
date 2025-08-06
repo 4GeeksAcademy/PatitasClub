@@ -38,9 +38,11 @@ export const Navbar = () => {
           </Link>
         </span>
 
+
         <form
-          className="search-bar my-2 my-md-0 mx-auto w-100 w-md-50 d-flex bg-white border border-dark rounded-pill"
+          className="search-bar mx-auto w-100 w-md-50 d-flex bg-white border border-dark rounded-pill"
           onSubmit={handleSearch}
+          style={{ marginBottom: 0 }}
         >
           <button className="btn" type="submit" aria-label="Buscar">
             <span className="input-group-text bg-transparent border-0">
@@ -88,7 +90,11 @@ export const Navbar = () => {
         </div>
       </div>
 
-      <div className="icon-container d-flex justify-content-center align-items-center fs-1 w-100 mt-3 mt-md-1 gap-4">
+
+      <div
+        className="icon-container d-flex justify-content-center align-items-center fs-1 w-100 gap-3"
+        style={{ marginTop: 0, paddingTop: 0 }}
+      >
         <Link to="/perros">
           <i className="fa-solid fa-dog" style={{ color: "#3c6ca8", cursor: "pointer" }}></i>
         </Link>
