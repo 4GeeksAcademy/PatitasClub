@@ -1,34 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer"; 
 
 export const Carrito = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Cama para perro",
-      price: 29.99,
-      quantity: 1,
-      image: "https://via.placeholder.com/100",
-    },
-    {
-      id: 2,
-      name: "Juguete para gato",
-      price: 9.99,
-      quantity: 2,
-      image: "https://via.placeholder.com/100",
-    },
-  ]);
+  const { store, dispatch } = useGlobalReducer();
+  const cartItems = store.cart;
 
   const updateQuantity = (id, newQuantity) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
-      )
-    );
+    dispatch({
+      type: "update_quantity",
+      payload: { id, quantity: Math.max(1, newQuantity) },
+    });
   };
 
   const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    dispatch({ type: "remove_from_cart", payload: id });
   };
 
   const totalPrice = cartItems.reduce(
