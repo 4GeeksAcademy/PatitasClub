@@ -1,15 +1,26 @@
+// src/components/Navbar.jsx
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import logoPatitas from "/logoPatitas.png";
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleUserClick = () => {
     if (token) {
       navigate("/dashboard");
     } else {
       navigate("/registro");
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = searchTerm.trim();
+    if (query !== "") {
+      navigate(`/busqueda?query=${encodeURIComponent(query)}`);
     }
   };
 
@@ -27,27 +38,32 @@ export const Navbar = () => {
           </Link>
         </span>
 
-        <div className="search-bar my-2 my-md-0 mx-auto w-100 w-md-50 d-flex bg-white border border-dark rounded-pill">
+        <form
+          className="search-bar my-2 my-md-0 mx-auto w-100 w-md-50 d-flex bg-white border border-dark rounded-pill"
+          onSubmit={handleSearch}
+        >
           <button className="btn" type="submit" aria-label="Buscar">
             <span className="input-group-text bg-transparent border-0">
               <i className="fa-solid fa-magnifying-glass"></i>
             </span>
           </button>
           <input
-            className="form-control text-center border-0 bg-transparent  "
+            className="form-control text-center border-0 bg-transparent"
             type="search"
-            placeholder="Qué estás buscando?"
+            placeholder="¿Qué estás buscando?"
             aria-label="Buscar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
+        </form>
 
         <div className="buttons d-flex justify-content-center justify-content-md-end mt-2 mt-md-0">
           <button
             style={{
               color: token ? "#fff" : "#3c6ca8",
-              backgroundColor:"transparent",
+              backgroundColor: "transparent",
               border: "none",
-              marginRight: "0.5rem"
+              marginRight: "0.5rem",
             }}
             aria-label="Perfil de usuario"
             type="button"
@@ -55,7 +71,7 @@ export const Navbar = () => {
           >
             <i
               className="fa-solid fa-user fs-2 ms-5"
-              style={{ color: token ? "#dc3545" : "#3c6ca8" }} // Solo cambia el color del ícono
+              style={{ color: token ? "#dc3545" : "#3c6ca8" }}
             ></i>
           </button>
 
@@ -71,19 +87,13 @@ export const Navbar = () => {
           </Link>
         </div>
       </div>
+
       <div className="icon-container d-flex justify-content-center align-items-center fs-1 w-100 mt-3 mt-md-1 gap-4">
         <Link to="/perros">
-          <i
-            style={{ color: "#3c6ca8", cursor: "pointer" }}
-            className="fa-solid fa-dog"
-          ></i>
+          <i className="fa-solid fa-dog" style={{ color: "#3c6ca8", cursor: "pointer" }}></i>
         </Link>
-
         <Link to="/gatos">
-          <i
-            style={{ color: "#3c6ca8", cursor: "pointer" }}
-            className="fa-solid fa-cat"
-          ></i>
+          <i className="fa-solid fa-cat" style={{ color: "#3c6ca8", cursor: "pointer" }}></i>
         </Link>
       </div>
 

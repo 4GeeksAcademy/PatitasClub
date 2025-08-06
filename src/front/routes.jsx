@@ -1,3 +1,4 @@
+// src/routes.jsx
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -16,6 +17,7 @@ import { Carrito } from "./pages/Carrito.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Dashboard } from "./pages/Dashboard";
 import { VistaProducto } from "./components/VistaProducto.jsx";
+import { BusquedaPage } from "./components/BusquedaPage.jsx"; // <--- CORREGIDO
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +33,7 @@ export const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/vistaproducto/:id" element={<VistaProducto />} />
+      <Route path="/busqueda" element={<BusquedaPage />} />
     </Route>
   )
 );
