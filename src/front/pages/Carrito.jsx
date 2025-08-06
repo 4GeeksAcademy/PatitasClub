@@ -91,7 +91,7 @@ export const Carrito = () => {
           <div className="card p-3">
             <h4>Resumen</h4>
             <p className="fw-bold">Total: €{totalPrice.toFixed(2)}</p>
-            <Link to="/checkout" className="btn btn-success w-100">
+            <Link to="/pagos" className="btn btn-success w-100">
               Finalizar compra 💳
             </Link>
             <Link to="/" className="btn btn-link mt-2 text-decoration-none">

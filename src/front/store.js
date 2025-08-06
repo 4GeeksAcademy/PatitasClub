@@ -36,7 +36,6 @@ export default function storeReducer(store, action = {}) {
       const product = action.payload;
       const existing = store.cart.find(item => item.id === product.id);
       if (existing) {
-        // Incrementar cantidad
         return {
           ...store,
           cart: store.cart.map(item =>
@@ -44,7 +43,6 @@ export default function storeReducer(store, action = {}) {
           )
         };
       } else {
-        // Agregar nuevo producto con cantidad 1
         return {
           ...store,
           cart: [...store.cart, { ...product, quantity: 1 }]
@@ -68,6 +66,13 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         cart: store.cart.filter(item => item.id !== id)
+      };
+    }
+
+    case 'clear_cart': {
+      return {
+        ...store,
+        cart: []
       };
     }
 
